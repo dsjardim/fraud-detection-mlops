@@ -18,14 +18,8 @@ jobs:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
-          # Environment initialization
-          conda init
-          CONDA_BASE=$(conda info --base)
-          source $CONDA_BASE/etc/profile.d/conda.sh
-          conda activate fraud_detection
-
           # Install packages
-          conda env update -f requirements.yaml --prune
+          conda update -f requirements.yaml --prune
 
           # Get data from remote dvc repository
           conda install -c conda-forge dvc-gdrive
