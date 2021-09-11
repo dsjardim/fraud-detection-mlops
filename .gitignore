@@ -1,8 +1,11 @@
 # Byte-compiled / optimized / DLL files
-.idea/
 __pycache__/
 *.py[cod]
 *$py.class
+
+# IDE / Datasets
+.idea/
+data/creditcard.csv
 
 # C extensions
 *.so
