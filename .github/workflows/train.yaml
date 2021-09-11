@@ -5,35 +5,32 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
+      - uses: actions/setup-python@v2
+      - uses: s-weigand/setup-conda@v1
+        with:
+          python-version: '3.x'
       - name: Train model
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
-          # Setup Ubuntu
-          sudo apt update --yes
-          sudo apt upgrade --yes
-
-          # Get Miniconda and make it the main Python interpreter
-          wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/miniconda.sh
-          bash ~/miniconda.sh -b -p ~/miniconda
-          rm ~/miniconda.sh
-          export PATH=~/miniconda/bin:$PATH
-
-          # Install packages
-          conda env create -f requirements.yaml -n fraud_detection
-
           # Environment initialization
           conda init
           CONDA_BASE=$(conda info --base)
           source $CONDA_BASE/etc/profile.d/conda.sh
           conda activate fraud_detection
 
+          # Install packages
+          conda env update -f requirements.yaml --prune
+
           # Get data from remote dvc repository
-          conda install -y -c conda-forge mamba
-          mamba install -y -c conda-forge dvc
           conda install -c conda-forge dvc-gdrive
           dvc pull
+
+          pwd
+          ls -lah
 
           # Run the application
           python src/train.py
