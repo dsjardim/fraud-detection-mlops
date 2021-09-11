@@ -29,6 +29,8 @@ jobs:
           conda activate fraud_detection
 
           # Get data from remote dvc repository
+          conda install -y -c conda-forge mamba
+          mamba install -y -c conda-forge dvc
           dvc pull
 
           # Run the application
