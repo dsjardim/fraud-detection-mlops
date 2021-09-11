@@ -8,6 +8,7 @@ jobs:
       - name: Train model
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GDRIVE_CREDENTIALS_DATA: ${{ secrets.GDRIVE_CREDENTIALS_DATA }}
         run: |
           # Setup Ubuntu
           sudo apt update --yes
@@ -31,6 +32,7 @@ jobs:
           # Get data from remote dvc repository
           conda install -y -c conda-forge mamba
           mamba install -y -c conda-forge dvc
+          conda install -c conda-forge dvc-gdrive
           dvc pull
 
           # Run the application
