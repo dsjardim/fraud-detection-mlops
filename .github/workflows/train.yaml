@@ -20,6 +20,7 @@ jobs:
         run: |
           # Install packages
           conda env create -f requirements.yaml -n fraud_detection
+          conda init
           conda activate fraud_detection
 
           # Get data from remote dvc repository
