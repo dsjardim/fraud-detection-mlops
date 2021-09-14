@@ -29,8 +29,5 @@ jobs:
           conda install -c conda-forge dvc-gdrive
           dvc pull
 
-          pwd
-          ls -lah
-
           # Run the application
           python src/train.py

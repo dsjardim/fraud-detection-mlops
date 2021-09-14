@@ -1,24 +1,26 @@
+# See this Kaggle: https://www.kaggle.com/shivamb/semi-supervised-classification-using-autoencoders
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-from keras import regularizers
-from keras.layers import Input, Dense
-from keras.models import Model, Sequential
 from sklearn import preprocessing
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, accuracy_score
 from sklearn.model_selection import train_test_split
+import torch.nn
 
 np.random.seed(203)
 
 
+class AutoEncoder(nn.Module):
+    def __init__(self):
+        super(AutoEncoder, self).__init__()
+
+    def forward(self, x):
+        pass
+
+
 def train():
-    try:
-        data = pd.read_csv("../data/creditcard.csv")
-        print("\nTry")
-    except:
-        data = pd.read_csv("data/creditcard.csv")
-        print("\nExcept")
+    data = pd.read_csv("data/creditcard.csv")
 
     data["Time"] = data["Time"].apply(lambda x: x / 3600 % 24)
     data.head()
@@ -33,6 +35,8 @@ def train():
     df = non_fraud.append(fraud).sample(frac=1).reset_index(drop=True)
     X = df.drop(['Class'], axis=1).values
     Y = df["Class"].values
+
+    model = AutoEncoder()
 
     ## input layer
     input_layer = Input(shape=(X.shape[1],))
