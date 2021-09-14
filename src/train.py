@@ -13,7 +13,13 @@ np.random.seed(203)
 
 
 def train():
-    data = pd.read_csv("../data/creditcard.csv")
+    try:
+        data = pd.read_csv("../data/creditcard.csv")
+        print("\nTry")
+    except:
+        data = pd.read_csv("data/creditcard.csv")
+        print("\nExcept")
+
     data["Time"] = data["Time"].apply(lambda x: x / 3600 % 24)
     data.head()
 
