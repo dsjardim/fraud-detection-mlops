@@ -13,7 +13,7 @@ np.random.seed(203)
 
 
 def main():
-    data = pd.read_csv("../data/creditcard.csv")
+    data = pd.read_csv("data/creditcard.csv")
 
     x_raw, y_raw, x_norm, x_fraud = process_data(data)
 
