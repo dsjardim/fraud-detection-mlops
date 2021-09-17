@@ -21,4 +21,4 @@ jobs:
           dvc pull
 
           # Run the application
-          python src/train.py
+          python src/main.py
