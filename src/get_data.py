@@ -1,17 +1,15 @@
-import os
-import wget
-import zipfile
-
+import boto3
+import botocore
 
 if __name__ == "__main__":
-    # Download the zipped dataset
-    url = 'MY-DATASET-URL-AWS'  # TODO: Upload the CSV to S3 and get the link
-    zip_name = "data.zip"
-    wget.download(url, zip_name)
+    BUCKET_NAME = 'credit-fraud-dataset'  # replace with your bucket name
+    KEY = 'creditcard.csv'  # replace with your object key
+    s3 = boto3.resource('s3')
 
-    # Unzip it and standardize the .csv filename
-    with zipfile.ZipFile(zip_name, "r") as zip_ref:
-        zip_ref.filelist[0].filename = 'data/creditcard.csv'
-        zip_ref.extract(zip_ref.filelist[0])
-
-    os.remove(zip_name)
+    try:
+        s3.Bucket(BUCKET_NAME).download_file(KEY, 'data/creditcard.csv')
+    except botocore.exceptions.ClientError as e:
+        if e.response['Error']['Code'] == "404":
+            print("The object does not exist.")
+        else:
+            raise

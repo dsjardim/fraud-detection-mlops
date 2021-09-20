@@ -1,0 +1,26 @@
+schema: '2.0'
+stages:
+  get_data:
+    cmd: python src/get_data.py
+    deps:
+    - path: src/get_data.py
+      md5: 0699b4df6db00f0e585515ab3d2560c6
+      size: 496
+    outs:
+    - path: data/creditcard.csv
+      md5: e90efcb83d69faf99fcab8b0255024de
+      size: 150828752
+      isexec: true
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: data/creditcard.csv
+      md5: e90efcb83d69faf99fcab8b0255024de
+      size: 150828752
+    - path: src/train.py
+      md5: f89d58acddbf7680c60e33e99bfefc3a
+      size: 1160
+    outs:
+    - path: data/metrics.json
+      md5: 7491bca055f1a6cf99d474b4776ca7cd
+      size: 126
