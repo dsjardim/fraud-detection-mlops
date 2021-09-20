@@ -5,7 +5,7 @@ __pycache__/
 
 # IDE / Datasets
 .idea/
-data/creditcard.csv
+data/*
 
 # C extensions
 *.so
