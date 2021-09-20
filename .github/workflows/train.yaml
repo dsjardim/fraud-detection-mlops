@@ -22,3 +22,7 @@ jobs:
 
           # Run the application
           python src/main.py
+
+          git fetch --prune
+          echo "## Metrics: Workspace vs. Main"
+          dvc data/metrics diff --show-md master > report.md

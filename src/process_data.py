@@ -9,7 +9,7 @@ def process_data(data):
     data["Time"] = data["Time"].apply(lambda x: x / 3600 % 24)
     data.head()
 
-    non_fraud = data[data['Class'] == 0].sample(1000)
+    non_fraud = data[data['Class'] == 0]
     fraud = data[data['Class'] == 1]
 
     df = non_fraud.append(fraud).sample(frac=1).reset_index(drop=True)
@@ -31,10 +31,10 @@ def process_data(data):
                         shuffle=True,
                         validation_split=0.20)
 
-    model.fit(x_norm[0:2000], x_norm[0:2000])
+    model.fit(x_norm, x_norm)
     hidden_repr = model.get_representation()
 
-    norm_hid_rep = hidden_repr.predict(x_norm[:3000])
+    norm_hid_rep = hidden_repr.predict(x_norm)
     fraud_hid_rep = hidden_repr.predict(x_fraud)
     rep_x = np.append(norm_hid_rep, fraud_hid_rep, axis=0)
 
