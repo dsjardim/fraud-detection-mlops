@@ -5,7 +5,8 @@ __pycache__/
 
 # IDE / Datasets
 .idea/
-data/*
+data/*.csv
+data/*.json
 
 # C extensions
 *.so
