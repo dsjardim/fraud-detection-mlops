@@ -9,11 +9,11 @@ jobs:
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
-        env:
-          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       - name: CML Run
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Install Dependencies
           pip install -r requirements.txt
