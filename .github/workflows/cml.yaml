@@ -7,15 +7,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - uses: aws-actions/configure-aws-credentials@v1
-      - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - name: CML Run
+        with:
+          aws-region: us-east-2
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
         run: |
           # Install Dependencies
           pip install -r requirements.txt
