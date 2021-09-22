@@ -16,7 +16,7 @@ def main():
 
     X, y = process_data(data)
 
-    clf = LogisticRegression(solver="liblinear", penalty="none")
+    clf = LogisticRegression(solver="saga")
 
     train_x, val_x, train_y, val_y = train_test_split(X, y, test_size=0.25)
     clf.fit(train_x, train_y)
