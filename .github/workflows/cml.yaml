@@ -1,0 +1,32 @@
+name: credit-fraud-detection
+on: [push]
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    container: docker://dvcorg/cml-py3:latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        env:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Install Dependencies
+      - uses: aws-actions/configure-aws-credentials@v1
+        run: |
+          pip install -r requirements.txt
+
+      - name: CML Run
+        env:
+          REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # run-cache and reproduce pipeline
+          dvc repro
+
+          # Report metrics
+          git fetch --prune
+          echo "## Metrics: Workspace vs. Main"
+          dvc metrics diff --show-md master > report.md
