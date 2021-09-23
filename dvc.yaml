@@ -10,6 +10,8 @@ stages:
       deps:
       - src/train.py
       - data/creditcard.csv
+      outs:
+        - data/confusion_matrix.png
       metrics:
         - data/metrics.json:
             cache: false

@@ -31,6 +31,12 @@ jobs:
           dvc repro
 
           # Report metrics
+          echo "## Metrics" >> report.md
           git fetch --prune
-          echo "## Metrics: Workspace vs. Main"
-          dvc metrics diff --show-md master > report.md
+          dvc metrics diff master --show-md >> report.md
+
+          # Publish confusion matrix diff
+          echo -e "## Plots\n### Confusion matrix" >> report.md
+          cml-publish data/confusion_matrix.png --md >> report.md
+
+          cml-send-comment report.md
