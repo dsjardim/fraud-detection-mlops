@@ -1,5 +1,7 @@
 # See this Kaggle: https://www.kaggle.com/shivamb/semi-supervised-classification-using-autoencoders
 import matplotlib.pyplot as plt
+import seaborn as sns
+
 import pandas as pd
 import numpy as np
 
@@ -16,12 +18,17 @@ def main():
 
     X, y = process_data(data)
 
-    clf = LogisticRegression(solver="saga")
+    clf = LogisticRegression()
 
     train_x, val_x, train_y, val_y = train_test_split(X, y, test_size=0.25)
     clf.fit(train_x, train_y)
     pred_y = clf.predict(val_x)
     clf_rep = classification_report(val_y, pred_y, output_dict=True)
+
+    cm = confusion_matrix(val_y, pred_y)
+    hm = sns.heatmap(cm, annot=True, cmap='Blues')
+    fig = hm.get_figure()
+    fig.savefig('data/confusion_matrix.png', dpi=400)
 
     metrics_out = {
         "accuracy": clf_rep["accuracy"],
