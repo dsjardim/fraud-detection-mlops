@@ -1,4 +1,10 @@
-# MLOps: A Complete Introduction
+# MLOps: A Complete and Hands-on Introduction
+
+<img src="./images/MLOps.png" alt="MLOps-Cycle" width="800"/>
+
+*Fig. XXX: The MLOps cycle. Font: Neal Analytics.*
+
+<!-- ![MLOps-Cycle](./images/MLOps.png) -->
 
 Machine Learning Operations (MLOps) refers to the tools, techniques and practical experiences required to train  machine learning models and deploy and monitor them in production.
 
