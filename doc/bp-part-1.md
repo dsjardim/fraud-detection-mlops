@@ -1,6 +1,6 @@
 # MLOps: A Complete and Hands-on Introduction
 
-<img src="./images/MLOps.png" alt="MLOps-Cycle" width="800"/>
+<img src="./images/MLOps.png" alt="MLOps-Cycle" width="600"/>
 
 *Fig. XXX: The MLOps cycle. Font: Neal Analytics.*
 
