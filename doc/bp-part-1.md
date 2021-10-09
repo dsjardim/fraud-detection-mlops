@@ -34,6 +34,13 @@ There are three levels to be covered:
 ## Tools for MLOps
 
 
+<img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="497"/>
+
+*Fig. XXX: The MLOps stack. Font: The author.*
+
+<!-- ![MLOps-Stack](./images/MLOps-Stack.png) -->
+
+
 Data/Model pipelines: DVC, Kubeflow, MLflow
 CI/CD: CML, GitHub Actions, Jenkins
 Cloud: AWS, GCP and Azure
