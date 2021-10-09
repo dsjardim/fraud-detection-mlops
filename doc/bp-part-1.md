@@ -2,7 +2,7 @@
 
 <img src="./images/MLOps.png" alt="MLOps-Cycle" width="600"/>
 
-*Fig. XXX: The MLOps cycle. Font: Neal Analytics.*
+*Fig. 1: The MLOps cycle. Font: Neal Analytics.*
 
 <!-- ![MLOps-Cycle](./images/MLOps.png) -->
 
@@ -15,7 +15,7 @@ MLOps became popular due to the rise of the Data Science and Machine Learning ar
 ## The benefits of MLOps
 
 ### Simplified Deployment
-The Data Science stack nowadays provides a lot of programming languages and frameworks to Data Scientists run their experiments. Therefore, MLOps enables ML Engineers to more rapidly deploy models from those many different frameworks and languages.
+The Data Science stack nowadays provides a lot of programming languages and frameworks to Data Scientists run their experiments. Therefore, MLOps enables ML Engineers to more rapidly deploy models from those many frameworks and languages.
 
 ### ML Monitoring
 Many MLOps pipelines provide model-specific metrics, detection of data drift for important features, and other core functionality.
@@ -39,14 +39,19 @@ There are three levels to be covered:
 
 ## Tools for MLOps
 
-
 <img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="497"/>
 
-*Fig. XXX: The MLOps stack. Font: The author.*
+*Fig. 2: The MLOps stack. Font: The author.*
 
 <!-- ![MLOps-Stack](./images/MLOps-Stack.png) -->
 
+There are a lot of frameworks that a data scientist can use to build and train a ML model, as well as deploying and monitoring it in production stage using a MLOps pipeline. We present some of these options in Fig. 2.
 
-Data/Model pipelines: DVC, Kubeflow, MLflow
-CI/CD: CML, GitHub Actions, Jenkins
-Cloud: AWS, GCP and Azure
+We can separate them into some specific segments:
+- Model Experimenting: Pytorch and Tensorflow
+- Experiment Tracking and Report: DVC and CML
+- Automation: Jenkins, GitHub Actions, MLflow and Kubeflow
+
+You can use frameworks such as Pytorch or Tensorflow in order to build and train any ML model. In order to better organize your data (datasets and model artifacts), you can use the DVC tool to start versioning it. Finally, you can put this stages all together using some automation framework, such as any of the listed above. Today, this pipeline can be whether set on an on-premise environment or in the cloud, the result will be the same.
+
+We hope to have demystified a little regarding MLOps concept and what a data scientist or a ML engineer does in each step of the MLOps pipeline. In the following blogposts, we will get into more details on how to build a very simple pipeline using a public dataset, and some tools we mentioned before.
