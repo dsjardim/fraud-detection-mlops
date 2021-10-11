@@ -6,7 +6,7 @@ __pycache__/
 # IDE / Datasets
 .idea/
 data/*.csv
-data/*.json
+data/*.png
 
 # C extensions
 *.so
@@ -132,3 +132,4 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/data/confusion_matrix.png

@@ -5,7 +5,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
-from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
+from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
@@ -18,15 +18,15 @@ def main():
 
     X, y = process_data(data)
 
-    clf = QuadraticDiscriminantAnalysis()
+    clf = LogisticRegression()
 
     train_x, val_x, train_y, val_y = train_test_split(X, y, test_size=0.25)
     clf.fit(train_x, train_y)
     pred_y = clf.predict(val_x)
     clf_rep = classification_report(val_y, pred_y, output_dict=True)
 
-    cm = confusion_matrix(val_y, pred_y)
-    hm = sns.heatmap(cm, annot=True, cmap='Blues')
+    cm = confusion_matrix(val_y, pred_y, normalize='true')
+    hm = sns.heatmap(cm/np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
     fig = hm.get_figure()
     fig.savefig('data/confusion_matrix.png', dpi=400)
 
