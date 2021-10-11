@@ -26,7 +26,7 @@ def main():
     clf_rep = classification_report(val_y, pred_y, output_dict=True)
 
     cm = confusion_matrix(val_y, pred_y, normalize='true')
-    hm = sns.heatmap(cm, annot=True, cmap='Blues')
+    hm = sns.heatmap(cm/np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
     fig = hm.get_figure()
     fig.savefig('data/confusion_matrix.png', dpi=400)
 
