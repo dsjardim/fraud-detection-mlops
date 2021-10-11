@@ -5,6 +5,7 @@ import seaborn as sns
 import pandas as pd
 import numpy as np
 
+from sklearn.discriminant_analysis import QuadraticDiscriminantAnalysis
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix
@@ -18,7 +19,7 @@ def main():
 
     X, y = process_data(data)
 
-    clf = LogisticRegression()
+    clf = QuadraticDiscriminantAnalysis()
 
     train_x, val_x, train_y, val_y = train_test_split(X, y, test_size=0.25)
     clf.fit(train_x, train_y)
