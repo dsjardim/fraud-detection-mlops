@@ -10,8 +10,6 @@ Machine Learning Operations (MLOps) refers to the tools, techniques and practica
 
 The concept of MLOps comes from DevOps, which is the existing practice of more efficiently write, deploy, and manage enterprise applications. It was designed to unite software developers (Devs) and IT operations teams (Ops) to enable better collaboration between them. MLOps shares these aims but adds the Data Scientists and also ML Engineers to the team. 
 
-Due to the rise of the Data Science area in the past few years, many companies may have been facing issues regarding the integration between multidisciplinary teams, like Data Scientists and ML Engineers. This is because Data Scientists like to experiment new technologies as soon as they come up, and this can become a problem since the teams may don`t have any structure 
-
 Due to the rise of the DS area over the years, many companies may face issues related to the integration and coordination between multidisciplinary teams, such as data scientists and ML engineers. New technologies tend to emerge day by day, and data scientists tend to use these new tools in their experiments and this can become a headache at the moment this experiment needs to be deployed into production environment. This is because these companies usually do not have a well-defined and automated structure that guarantees a perfect execution and health sanity-checks of the ML models that must be deployed, resulting in a lot of manual rework. MLOps started to become very popular mainly to prevent this kind of problem from occurring and also to make the lives of data scientists and ML engineers easier, and it also makes both development and deployment processes much easier and agile to happen.
 
 ## The benefits of MLOps
