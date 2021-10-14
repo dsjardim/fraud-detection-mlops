@@ -41,6 +41,9 @@ def main():
     with open("data/metrics.json", 'w') as outfile:
         json.dump(metrics_out, outfile)
 
+    with open('data/model.pickle', 'wb') as f:
+        pickle.dump(clf, f)
+
 
 if __name__ == '__main__':
     main()
