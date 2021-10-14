@@ -73,7 +73,7 @@ A MLOps pipeline in level 2 reflects a robust, fully automated CI/CD pipeline sy
 - ML pipeline orchestrator
 
 ## Tools for MLOps
-<img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="497"/>
+<img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="384"/>
 
 *Fig. 2: The MLOps stack. Font: The author.*
 
