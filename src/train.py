@@ -4,6 +4,7 @@ import seaborn as sns
 
 import pandas as pd
 import numpy as np
+import pickle
 
 from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
@@ -26,7 +27,7 @@ def main():
     clf_rep = classification_report(val_y, pred_y, output_dict=True)
 
     cm = confusion_matrix(val_y, pred_y, normalize='true')
-    hm = sns.heatmap(cm/np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
+    hm = sns.heatmap(cm / np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
     fig = hm.get_figure()
     fig.savefig('data/confusion_matrix.png', dpi=400)
 
@@ -39,6 +40,9 @@ def main():
 
     with open("data/metrics.json", 'w') as outfile:
         json.dump(metrics_out, outfile)
+
+    with open('data/model.pickle', 'wb') as f:
+        pickle.dump(clf, f)
 
 
 if __name__ == '__main__':

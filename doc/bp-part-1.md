@@ -6,11 +6,11 @@
 
 <!-- ![MLOps-Cycle](./images/MLOps.png) -->
 
-Machine Learning Operations (MLOps) refers to the tools, techniques and practical experiences required to train  Machine Learning (ML) models and deploy and monitor them in production.
+Machine Learning Operations (MLOps) refers to the tools, techniques and practical experiences required to train  Machine Learning (ML) models, deploy and monitor them in production.
 
-The concept of MLOps comes from DevOps, which is the existing practice of more efficiently write, deploy, and manage enterprise applications. It was designed to unite software developers (Devs) and IT operations teams (Ops) to enable better collaboration between them. MLOps shares these aims but adds the Data Scientists and also ML Engineers to the team. 
+The concept of MLOps comes from DevOps, which is the existing practice of more efficiently writing, deploying, and managing enterprise applications. It was designed to unite software developers (Devs) and IT operations teams (Ops) to enable better collaboration between them. MLOps shares these aims but adds the Data Scientists and also ML Engineers to the team. 
 
-MLOps became popular due to the rise of the Data Science and ML areas in the past years. The reason for that is that Data Scientists have a strong background in statistics and programming, but they are not used to put ML models into production. This is where ML Engineers comes into picture, they have the knowledge of databases, REST APIs, and a collection of other IT skills that are needed to accomplish this task.
+Due to the rise of the DS area over the years, many companies may face issues related to the integration and coordination between multidisciplinary teams, such as data scientists and ML engineers. New technologies tend to emerge day by day, and data scientists tend to use these new tools in their experiments and this can become a headache at the moment this experiment needs to be deployed into production environment. This is because these companies usually do not have a well-defined and automated structure that guarantees a perfect execution and health sanity-checks of the ML models that must be deployed, resulting in a lot of manual rework. MLOps started to become very popular mainly to prevent this kind of problem from occurring and also to make the lives of data scientists and ML engineers easier, and it also makes both development and deployment processes much easier and agile to happen.
 
 ## The benefits of MLOps
 
@@ -34,14 +34,13 @@ In ML, experiment tracking is the process of saving all experiment-related infor
 
 Reproducibility in ML means that you can repeatedly run your algorithm on certain datasets and obtain the same results no matter what environment (locally or remotely) you execute this experiment. It adds value to any CI/CD pipeline and allows these activities to proceed smoothly, so in-house changes and deployments for clients become routine and not a nightmare. Building a MLOps pipeline helps Data Science teams to reduce errors and ambiguity when the projects move from development to production for example.
 
-
 ## How to implement MLOps:
 
-In any Data Science project, the process of delivering an ML model to production involves steps such as: data extraction, data analysis, data preparation, model training, validation and testing, and finally, model serving and monitoring. The level of automation of these steps defines the maturity of the ML pipeline, which reflects the velocity of training new models given new data or training new models given new implementations. Google recognizes three levels of MLOps, starting from the most common level, which involves no automation, up to automating both ML and CI/CD pipelines.
+In any Data Science project, the process of delivering an ML model to production involves steps such as: data extraction, data analysis, data preparation, model training/validation/testing, and finally, model serving and monitoring. The level of automation of these steps defines the maturity of the ML pipeline, which reflects the velocity of training new models given new data or training new models given new implementations. Google recognizes three levels of MLOps, starting from the most common level, which involves no automation, up to automating both ML and CI/CD pipelines.
 
 ### Level 0 - Manual Process
 
-At this level, the team may have a state-of-the-art ML model created by a data scientist, but the build and deployment process for ML models is completely manual. So, here we have:
+At this level, the team may have a state-of-the-art ML model created by data scientists, but the build and deployment process for ML models is completely manual. So, here we have:
 
 - Script-driven and interactive process
 - Disconnect between ML and operations
@@ -52,7 +51,7 @@ ML processes at this level are more related to experiments that are still in ear
 
 ### Level 1 - ML Pipeline Automation
 
-The improvement here in this level is to perform what's called Continuous Training (CT), which is the automated retraining ML models. To do this using new data in production, you need to introduce automated data and model validation steps to the pipeline, as well as pipeline triggers and metadata management. Some key ideas here:
+The improvement here in this level is to perform what's called Continuous Training (CT), which is the automated retrain of ML models. In order to do this by using new data in production, you need to introduce automated data and model validation steps to the pipeline, as well as pipeline's triggers and metadata management. Some key ideas here:
 
 - Rapid experiment
 - CT of the model in production
@@ -61,7 +60,7 @@ The improvement here in this level is to perform what's called Continuous Traini
 
 ### Level 2 - CI/CD Pipeline Automation
 
-A MLOps pipeline in level 2 reflects a robust, fully automated CI/CD pipeline system that can deliver reliable, rapid updates on the pipelines in production. With this automated CI/CD system, your data scientists rapidly explore new ideas around feature engineering, model architecture, and hyperparameters. This MLOps setup includes the following components:
+A MLOps pipeline in level 2 reflects a robust, fully automated CI/CD pipeline system that can deliver reliable and rapid updates on the pipelines in production. With this automated CI/CD system, data scientists can rapidly explore new ideas around feature engineering, model architecture, and hyperparameter searching. This MLOps setup includes the following components:
 
 - Source control
 - Test and build services
@@ -72,19 +71,19 @@ A MLOps pipeline in level 2 reflects a robust, fully automated CI/CD pipeline sy
 - ML pipeline orchestrator
 
 ## Tools for MLOps
-<img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="497"/>
+<img src="./images/MLOps-Stack.png" alt="MLOps-Stack" width="384"/>
 
 *Fig. 2: The MLOps stack. Font: The author.*
 
 <!-- ![MLOps-Stack](./images/MLOps-Stack.png) -->
 
-There are a lot of frameworks that a data scientist can use to build and train a ML model, as well as deploying and monitoring it in production stage using a MLOps pipeline. We present some of these options in Fig. 2.
+There are a lot of frameworks that data scientists can use to build and train ML models, as well as deploying and monitoring them in production stage using the MLOps pipeline. We present some of these options in Fig. 2.
 
 We can separate them into some specific segments:
 - Model Experimenting: Pytorch and Tensorflow
 - Experiment Tracking and Report: DVC and CML
 - Automation: Jenkins, GitHub Actions, MLflow and Kubeflow
 
-You can use frameworks such as Pytorch or Tensorflow in order to build and train any ML model. In order to better organize your data (datasets and model artifacts), you can use the DVC tool to start versioning it. Finally, you can put this stages all together using some automation framework, such as any of the listed above. Today, this pipeline can be whether set on an on-premise environment or in the cloud, the result will be the same.
+We can use frameworks such as Pytorch or Tensorflow in order to build and train ML models. In order to better organize the data (i.e., datasets and model artifacts), we can use the DVC tool to start versioning it. Finally, we can put this stages all together using some automation framework, such as any of the listed above. This pipeline can be whether set on an on-premise environment or in the cloud, the result will be the same.
 
 We hope to have demystified a little regarding MLOps concept and what a data scientist or a ML engineer does in each step of the MLOps pipeline. In the following blogposts, we will get into more details on how to build a very simple pipeline using a public dataset, and some tools we mentioned before.
