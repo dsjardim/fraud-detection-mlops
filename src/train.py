@@ -1,16 +1,15 @@
 # See this Kaggle: https://www.kaggle.com/shivamb/semi-supervised-classification-using-autoencoders
-import matplotlib.pyplot as plt
-import seaborn as sns
-
-import pandas as pd
-import numpy as np
+import json
 import pickle
 
+import numpy as np
+import pandas as pd
+import seaborn as sns
 from sklearn.linear_model import LogisticRegression
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
-import json
+from sklearn.metrics import confusion_matrix
+from sklearn.model_selection import train_test_split
+
 from process_data import process_data
 
 
