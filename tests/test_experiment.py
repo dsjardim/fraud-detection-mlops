@@ -4,8 +4,4 @@ import os
 
 
 def test_model_creation():
-    assert pl.Path(__file__).parent.joinpath("data", "model.pickle").is_file()
-
-
-def test_model_creation1():
-    assert pl.Path(__file__).joinpath("data", "model.pickle").is_file()
+    assert pl.Path("/home/runner/work/fraud-detection-mlops/fraud-detection-mlops/data/model.pickle").exists()

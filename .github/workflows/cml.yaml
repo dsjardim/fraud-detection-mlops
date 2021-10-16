@@ -51,12 +51,7 @@ jobs:
           pip install --no-cache-dir -r requirements.txt
       - name: Run test
         run: |
-          pwd
-          ls -lah
-          cd data ; ls -lah ; cd ..
           dvc repro
-          ls -lah
-          cd data ; ls -lah ; cd ..
           pytest --cov-report=term-missing --cov=src --cov-fail-under=0
           pytest --cov-report=html --cov=src
 
