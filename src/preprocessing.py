@@ -9,11 +9,8 @@ from sklearn.manifold import TSNE
 from sklearn.model_selection import StratifiedKFold
 from sklearn.preprocessing import StandardScaler, RobustScaler
 
-# Classifier Libraries
 warnings.filterwarnings("ignore")
-
 np.random.seed(203)
-
 COLORS = ["#0101DF", "#DF0101"]
 
 
