@@ -15,7 +15,7 @@ from preprocessing import prepare_dataset
 
 
 def main():
-    data = pd.read_csv("../data/creditcard.csv")
+    data = pd.read_csv("data/creditcard.csv")
 
     data_dict = prepare_dataset(data, False)
 
@@ -44,7 +44,7 @@ def main():
     cm = confusion_matrix(y_valid, pred_y, normalize='true')
     hm = sns.heatmap(cm / np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
     fig = hm.get_figure()
-    fig.savefig('../data/confusion_matrix.png', dpi=400)
+    fig.savefig('data/confusion_matrix.png', dpi=400)
 
     metrics_out = {
         "accuracy": clf_rep["accuracy"],
@@ -53,10 +53,10 @@ def main():
         "f1-score": clf_rep["weighted avg"]["f1-score"]
     }
 
-    with open("../data/metrics.json", 'w') as outfile:
+    with open("data/metrics.json", 'w') as outfile:
         json.dump(metrics_out, outfile)
 
-    with open('../data/model.pickle', 'wb') as f:
+    with open('data/model.pickle', 'wb') as f:
         pickle.dump(clf, f)
 
 
