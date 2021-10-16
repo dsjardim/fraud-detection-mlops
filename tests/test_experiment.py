@@ -4,6 +4,5 @@ import os
 
 
 def test_model_creation():
-    print(os.getcwd())
-    print(__file__)
-    assert pl.Path("data/model.pickle").is_file()
+    print(pl.Path(__file__).is_file())
+    assert pl.Path(__file__).joinpath("data", "model.pickle").is_file()
