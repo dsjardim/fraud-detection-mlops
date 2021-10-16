@@ -133,3 +133,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 /data/confusion_matrix.png
+/data/model.pickle
