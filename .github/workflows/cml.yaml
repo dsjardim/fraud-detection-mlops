@@ -56,13 +56,14 @@ jobs:
 
   experiment-train:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8 ]
     steps:
       - uses: actions/checkout@v2
       - uses: iterative/setup-cml@v1
       - uses: iterative/setup-dvc@v1
       - uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-region: us-east-1
