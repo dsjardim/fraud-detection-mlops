@@ -53,8 +53,10 @@ jobs:
         run: |
           pwd
           ls -lah
+          cd data ; ls -lah
           dvc repro
           ls -lah
+          cd data ; ls -lah
           pytest --cov-report=term-missing --cov=src --cov-fail-under=0
           pytest --cov-report=html --cov=src
 
