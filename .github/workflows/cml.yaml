@@ -33,6 +33,12 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: iterative/setup-dvc@v1
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-region: us-east-1
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v1
@@ -45,6 +51,10 @@ jobs:
           pip install --no-cache-dir -r requirements.txt
       - name: Run test
         run: |
+          pwd
+          ls -lah
+          dvc repro
+          ls -lah
           pytest --cov-report=term-missing --cov=src --cov-fail-under=0
           pytest --cov-report=html --cov=src
 
@@ -78,9 +88,6 @@ jobs:
           # Install Dependencies
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-
-          pwd
-          ls -lah
 
           # run-cache and reproduce pipeline
           dvc repro
