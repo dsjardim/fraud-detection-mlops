@@ -1,5 +1,6 @@
 name: credit-fraud-detection-flow
 on: [push]
+
 jobs:
   python-lint:
     runs-on: ubuntu-latest
