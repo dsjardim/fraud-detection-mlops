@@ -1,17 +1,18 @@
 stages:
-  get_data:
+  download_data:
     cmd: python src/get_data.py
     deps:
-    - src/get_data.py
+      - src/download_dataset.py
     outs:
-    - data/creditcard.csv
-  train:
-      cmd: python src/train.py
-      deps:
+      - data/creditcard.csv
+  train_clf:
+    cmd: python src/train.py
+    deps:
       - src/train.py
       - data/creditcard.csv
-      outs:
-        - data/confusion_matrix.png
-      metrics:
-        - data/metrics.json:
-            cache: false
+    outs:
+      - data/confusion_matrix.png
+      - data/model.pickle
+    metrics:
+      - data/metrics.json:
+          cache: false

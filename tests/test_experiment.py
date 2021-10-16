@@ -1,6 +1,4 @@
-import pytest
 import pathlib as pl
-import os
 
 
 def test_model_creation():
