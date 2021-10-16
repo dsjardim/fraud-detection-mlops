@@ -1,6 +1,6 @@
 stages:
   download_data:
-    cmd: python src/get_data.py
+    cmd: python src/download_dataset.py
     deps:
       - src/download_dataset.py
     outs:
