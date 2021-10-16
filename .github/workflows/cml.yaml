@@ -44,7 +44,7 @@ jobs:
           pip install --no-cache-dir -r requirements.txt
       - name: Run test
         run: |
-          pytest --cov-report=term-missing --cov=src --cov-fail-under=0.4
+          pytest --cov-report=term-missing --cov=src --cov-fail-under=0
           pytest --cov-report=html --cov=src
 
       - name: Upload coverage report
