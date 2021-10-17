@@ -1,5 +1,5 @@
 name: credit-fraud-detection-flow
-on: [ push ]
+on: [ push, pull_request ]
 
 jobs:
   python-lint:
