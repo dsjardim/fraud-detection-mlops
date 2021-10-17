@@ -3,7 +3,7 @@ import pickle
 import pandas as pd
 from fastapi import FastAPI, UploadFile, File
 
-from preprocessing import prepare_dataset
+from src.preprocessing import prepare_dataset
 
 app = FastAPI(title='Credit Card Fraud Detection API')
 
