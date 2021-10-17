@@ -135,4 +135,3 @@ dmypy.json
 /data/confusion_matrix.png
 /data/model.pickle
 /.dvc/plots/
-/*.lock
