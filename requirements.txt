@@ -15,4 +15,4 @@ scikit-learn==0.24.2
 scipy==1.7.1
 seaborn==0.11.2
 termcolor==1.1.0
-unicorn==1.0.3
+uvicorn==0.15.0
