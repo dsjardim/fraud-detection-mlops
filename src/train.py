@@ -11,7 +11,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
 
-from src.preprocessing import prepare_dataset
+from preprocessing import prepare_dataset
 
 
 def main():
