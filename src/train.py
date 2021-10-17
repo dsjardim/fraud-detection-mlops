@@ -1,4 +1,3 @@
-# See this Kaggle: https://www.kaggle.com/shivamb/semi-supervised-classification-using-autoencoders
 # See this Kaggle: https://www.kaggle.com/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
 import json
 import pickle
@@ -53,7 +52,7 @@ def main():
         "f1-score": clf_rep["weighted avg"]["f1-score"]
     }
 
-    with open("data/metrics.json", 'w') as outfile:
+    with open('data/metrics.json', 'w') as outfile:
         json.dump(metrics_out, outfile)
 
     with open('data/model.pickle', 'wb') as f:
