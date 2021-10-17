@@ -1,4 +1,3 @@
-# See this Kaggle: https://www.kaggle.com/shivamb/semi-supervised-classification-using-autoencoders
 # See this Kaggle: https://www.kaggle.com/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
 import json
 import pickle

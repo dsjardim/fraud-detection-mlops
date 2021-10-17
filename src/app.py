@@ -36,5 +36,6 @@ def predict(csv_file: UploadFile = File(...)):
 
     return {
         "output_file": "predict_results.csv",
-        "clf_score": score
+        "clf_score": score,
+        "predictions": y_pred
     }
