@@ -37,14 +37,3 @@ def predict(csv_file: UploadFile = File(...)):
         "output_file": "predict_results.csv",
         "clf_score": score
     }
-
-
-# Allows the server to be run in this interactive environment
-nest_asyncio.apply()
-
-# Host depends on the setup you selected (docker or virtual env)
-# host = "0.0.0.0" if os.getenv("DOCKER-SETUP") else "127.0.0.1"
-host = "https://credit-fraud-detection-mlops.herokuapp.com/"
-
-# Spin up the server!
-uvicorn.run(app, host=host, port=8000)
