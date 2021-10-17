@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from data_utils import download_data_from_s3
+from src.data_utils import download_data_from_s3
 
 if __name__ == "__main__":
     BUCKET_NAME = 'credit-fraud-dataset'  # replace with your bucket name
