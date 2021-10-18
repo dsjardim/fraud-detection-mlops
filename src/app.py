@@ -28,14 +28,14 @@ def predict(csv_file: UploadFile = File(...)):
     if pl.Path(model_path).exists():
         clf = pickle.load(open(model_path, 'rb'))
     else:
-        clf = download_data_from_s3('credit-fraud-dataset', 'model.pickle', model_path)
+        clf = download_data_from_s3('credit-fraud-mlops-artifacts', 'model.pickle', model_path)
 
     y_pred = clf.predict(X_test)
-
+    pred_prob = clf.predict_proba(X_test)
     score = clf.score(X_test, y_test)
 
     return {
-        "output_file": "predict_results.csv",
         "clf_score": score,
-        "predictions": y_pred
+        "predictions": y_pred,
+        "probabilities": pred_prob
     }
