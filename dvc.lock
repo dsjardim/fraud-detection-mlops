@@ -42,8 +42,8 @@ stages:
       md5: e90efcb83d69faf99fcab8b0255024de
       size: 150828752
     - path: src/train.py
-      md5: 5efeb2b32f94aa90d4d18e3fd41adf17
-      size: 2165
+      md5: 9884c2e13795ad49e3cfddc764f44af0
+      size: 2064
     outs:
     - path: data/confusion_matrix.png
       md5: c9adcb0cd7032e96a4ae021bafa842e7
