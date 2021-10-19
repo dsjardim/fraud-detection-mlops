@@ -134,4 +134,3 @@ dmypy.json
 .pyre/
 /data/confusion_matrix.png
 /data/model.pickle
-/.dvc/plots/
