@@ -28,8 +28,8 @@ stages:
     cmd: python src/download_dataset.py
     deps:
     - path: src/download_dataset.py
-      md5: c4d3ffe5dbbdc2a89645d1c534bc666d
-      size: 362
+      md5: fd45a6ea5fa97c8c335f64b80166d4c8
+      size: 370
     outs:
     - path: data/creditcard.csv
       md5: e90efcb83d69faf99fcab8b0255024de
