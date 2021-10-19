@@ -24,7 +24,7 @@ def predict(csv_file: UploadFile = File(...)):
     X_test = data_dict["X_test"]
     y_test = data_dict["y_test"]
 
-    model_path = "data/model.pickle"
+    model_path = "model.pickle"
     if pl.Path(model_path).exists():
         clf = pickle.load(open(model_path, 'rb'))
     else:
