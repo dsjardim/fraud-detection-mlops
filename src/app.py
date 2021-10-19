@@ -33,12 +33,10 @@ def predict(csv_file: UploadFile = File(...)):
 
     print(clf)
 
-    y_pred = clf.predict(X_test)
-    pred_prob = clf.predict_proba(X_test)
     score = clf.score(X_test, y_test)
+    y_pred = clf.predict(X_test).tolist()
 
     return {
         "clf_score": score,
-        "predictions": y_pred,
-        "probabilities": pred_prob
+        "predictions": y_pred
     }
