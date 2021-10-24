@@ -6,7 +6,7 @@ Here we will be using GitHub for hosting the repository, Data Version Control (D
 
 Following the MLOps principles, we are going to use GitHub Actions to automate all our development workflow, and we will integrate the repository with Heroku in order to automatically deploy our API to serve our model.
 
-The dataset we use in this hands-on article is available on Kaggle, and it's called [Credit Card Fraud Detection][1]. Moreover, we based the data processing step on this [notebook: Credit Fraud || Dealing with Imbalanced Datasets][2], that is available on Kaggle as well.
+The dataset we use in this hands-on article is available on Kaggle, and it's called [Credit Card Fraud Detection][1]. Moreover, we added the data processing step based on this [notebook: Credit Fraud || Dealing with Imbalanced Datasets][2], that is available on Kaggle as well.
 
 ## Download the dataset
 ## Data Preparation
