@@ -5,7 +5,7 @@ import pickle
 import numpy as np
 import pandas as pd
 import seaborn as sns
-from pathlib import Path
+import os
 
 import lightgbm as lgb
 import xgboost as xgb
@@ -20,7 +20,7 @@ from preprocessing import prepare_dataset
 
 
 def main():
-    Path("data").mkdir(parents=True, exist_ok=True)
+    os.mkdir('data') if not os.path.exists('data') else None
 
     data = pd.read_csv("data/creditcard.csv")
     data_dict = prepare_dataset(data, False)

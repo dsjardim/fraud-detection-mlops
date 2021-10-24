@@ -1,13 +1,13 @@
-import pathlib as pl
+import os
 
 
 def test_model_creation():
-    assert pl.Path("data/model.pickle").exists()
+    assert os.path.exists("data/model.pickle")
 
 
 def test_metrics_creation():
-    assert pl.Path("data/metrics.json").exists()
+    assert os.path.exists("data/metrics.json")
 
 
 def test_dataset_availability():
-    assert pl.Path("data/creditcard.csv").exists()
+    assert os.path.exists("data/creditcard.csv")

@@ -1,7 +1,7 @@
 import pickle
 
 import pandas as pd
-import pathlib as pl
+import os
 from fastapi import FastAPI, UploadFile, File
 
 from src.preprocessing import prepare_dataset
@@ -25,7 +25,7 @@ def predict(csv_file: UploadFile = File(...)):
     y_test = data_dict["y_test"]
 
     model_path = "model.pickle"
-    if pl.Path(model_path).exists():
+    if os.path.exists(model_path):
         clf = pickle.load(open(model_path, 'rb'))
     else:
         download_data_from_s3('credit-fraud-mlops-artifacts', 'model.pickle', model_path)
