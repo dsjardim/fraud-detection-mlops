@@ -1,4 +1,4 @@
-# MLOps: A Complete and Hands-on Introduction
+# MLOps: A Complete and Hands-on Introduction - Part 1
 
 <img src="./images/MLOps.png" alt="MLOps-Cycle" width="600"/>
 
