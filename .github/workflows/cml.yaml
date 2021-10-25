@@ -49,6 +49,7 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
+
       - name: Run test
         run: |
           dvc repro
@@ -69,24 +70,28 @@ jobs:
         python-version: [ 3.8 ]
     steps:
       - uses: actions/checkout@v2
-      - uses: iterative/setup-cml@v1
       - uses: iterative/setup-dvc@v1
-      - uses: actions/setup-python@v2
       - uses: aws-actions/configure-aws-credentials@v1
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
       - name: CML Run
+        uses: iterative/setup-cml@v1
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Install Dependencies
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install --no-cache-dir -r requirements.txt
 
-          # run-cache and reproduce pipeline
+      - name: Run Experiment
+        run: |
           dvc repro
 
           # Report metrics
