@@ -5,7 +5,13 @@ import pickle
 import numpy as np
 import pandas as pd
 import seaborn as sns
+import os
+
+import lightgbm as lgb
+import xgboost as xgb
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
+
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import cross_val_score
@@ -14,8 +20,9 @@ from preprocessing import prepare_dataset
 
 
 def main():
-    data = pd.read_csv("data/creditcard.csv")
+    os.mkdir('data') if not os.path.exists('data') else None
 
+    data = pd.read_csv("data/creditcard.csv")
     data_dict = prepare_dataset(data, False)
 
     X_train = data_dict["X_train"]
@@ -23,21 +30,54 @@ def main():
     y_train = data_dict["y_train"]
     y_valid = data_dict["y_valid"]
 
-    clf = LogisticRegression()
+    model_name = "xgboost"
+    # model_name = "lightgbm"
+    # model_name = "logistic_regression"
+    # model_name = "random_forest"
 
-    clf.fit(X_train, y_train)
-    training_score = cross_val_score(clf, X_train, y_train, cv=5)
-    print(clf.__class__.__name__, "Has a training score of", round(training_score.mean(), 2) * 100, "% accuracy score")
+    if model_name == "xgboost":
+        model = xgb.XGBClassifier(use_label_encoder=False)
+        parameters = {
+            'n_estimators': [500, 1000],
+            'max_depth': [20, 50],
+            'subsample': [0.7, 0.8, 0.9]
+        }
+    elif model_name == "lightgbm":
+        model = lgb.LGBMClassifier()
+        parameters = {
+            'n_estimators': [500, 1000],
+            'max_depth': [25, 50],
+            'num_leaves': [100, 200]
+        }
+    elif model_name == "logistic_regression":
+        model = LogisticRegression()
+        parameters = {
+            "penalty": ['l1', 'l2'],
+            'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]
+        }
+    else:
+        model = RandomForestClassifier()
+        parameters = {
+            'n_estimators': [500, 1000],
+            'max_depth': [25, 50],
+            'max_leaf_nodes': [100, 200]
+        }
 
-    # Logistic Regression
-    log_reg_params = {"penalty": ['l1', 'l2'], 'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]}
+    print(model)
 
-    grid_log_reg = GridSearchCV(LogisticRegression(), log_reg_params)
-    grid_log_reg.fit(X_train, y_train)
+    grid_clf = GridSearchCV(
+        estimator=model,
+        param_grid=parameters,
+        n_jobs=1,
+        scoring='neg_mean_squared_error',
+        verbose=2,
+        refit=True
+    )
 
-    log_reg_clf = grid_log_reg.best_estimator_
+    grid_clf.fit(X_train, y_train)
+    clf = grid_clf.best_estimator_
 
-    pred_y = log_reg_clf.predict(X_valid)
+    pred_y = clf.predict(X_valid)
     clf_rep = classification_report(y_valid, pred_y, output_dict=True)
 
     cm = confusion_matrix(y_valid, pred_y, normalize='true')
