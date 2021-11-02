@@ -110,6 +110,27 @@ The last thing we do in the ```train.py``` script is gathering some model metric
 
 Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment. 
 
+```yaml
+stages:
+  download_data:
+    cmd: python src/download_dataset.py
+    deps:
+      - src/download_dataset.py
+    outs:
+      - data/creditcard.csv
+  train_clf:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+      - data/creditcard.csv
+    outs:
+      - data/confusion_matrix.png
+      - data/model.pickle
+    metrics:
+      - data/metrics.json:
+          cache: false
+```
+
 We will also create our GitHub Actions workflow to made available automatic checks and provide insights for any further modifications on the code. 
 So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as metrics improvements comparing to the ```master``` branch and confusion matrices. Some examples are illustrated in Fig. 1 and Fig. 2.
 
@@ -124,6 +145,66 @@ So, whenever someone opens a Pull Request after modifying anything on the code, 
 *Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
 
 <!-- ![CM](./images/confusion_matrix.png) -->
+
+```yaml
+name: credit-fraud-detection-flow
+on: [ push ]
+
+jobs:
+  experiment-run-tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [ 3.8 ]
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
+      - uses: iterative/setup-dvc@v1
+      - uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v1
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install --no-cache-dir -r requirements.txt
+
+      - name: Run Experiment
+        env:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          dvc repro
+
+          echo "## Metrics" >> report.md
+          git fetch --prune
+          dvc metrics diff master --show-md >> report.md
+
+          # Publish confusion matrix diff
+          echo -e "## Plots\n### Confusion matrix" >> report.md
+          cml-publish data/confusion_matrix.png --md >> report.md
+
+          cml-send-comment report.md
+
+      - name: Run tests
+        run: |
+          pytest --cov-report=term-missing --cov=src --cov-fail-under=0
+          pytest --cov-report=html --cov=src
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: htmlcov/
+          retention-days: 5
+```
 
 ## Model Deploying and Serving
 
