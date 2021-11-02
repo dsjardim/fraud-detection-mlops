@@ -36,71 +36,7 @@ In this script, we are just defining the information we need to use the ```downl
 The next step in our pipeline is data preprocessing, followed by the model training and validation steps.
 For the first part, we've created a script called ```preprocessing.py```, and within it, we have several data processing methods we can use, such as data sampling, outliers detection and missing values treatments and dimensionality reduction. It's important to highlight that all these methods were extracted on this public [notebook][5] available on Kaggle.
 
-Our develop pipeline ends with the ```train.py``` script, and we present its main method on the following code snippet.
-
-```python
-def main():
-    data = pd.read_csv("data/creditcard.csv")
-    data_dict = prepare_dataset(data, False)
-
-    X_train = data_dict["X_train"]
-    X_valid = data_dict["X_valid"]
-    y_train = data_dict["y_train"]
-    y_valid = data_dict["y_valid"]
-
-    model_name = "random_forest"
-
-    if model_name == "logistic_regression":
-        model = LogisticRegression()
-        parameters = {
-            "penalty": ['l1', 'l2'],
-            'C': [0.001, 0.01, 0.1, 1, 10, 100, 1000]
-        }
-    else:
-        model = RandomForestClassifier()
-        parameters = {
-            'n_estimators': [500],
-            'max_depth': [50],
-            'max_leaf_nodes': [100]
-        }
-
-    print(model)
-
-    grid_clf = GridSearchCV(
-        estimator=model,
-        param_grid=parameters,
-        n_jobs=1,
-        scoring='neg_mean_squared_error',
-        verbose=2,
-        refit=True
-    )
-
-    grid_clf.fit(X_train, y_train)
-    clf = grid_clf.best_estimator_
-
-    pred_y = clf.predict(X_valid)
-    clf_rep = classification_report(y_valid, pred_y, output_dict=True)
-
-    cm = confusion_matrix(y_valid, pred_y, normalize='true')
-    hm = sns.heatmap(cm / np.sum(cm), annot=True, fmt='.2%', cmap='Blues')
-    fig = hm.get_figure()
-    fig.savefig('data/confusion_matrix.png', dpi=400)
-
-    metrics_out = {
-        "accuracy": clf_rep["accuracy"],
-        "precision": clf_rep["weighted avg"]["precision"],
-        "recall": clf_rep["weighted avg"]["recall"],
-        "f1-score": clf_rep["weighted avg"]["f1-score"]
-    }
-
-    with open('data/metrics.json', 'w') as outfile:
-        json.dump(metrics_out, outfile)
-
-    with open('data/model.pickle', 'wb') as f:
-        pickle.dump(clf, f)
-```
-
-In it, we put all the steps together and link them all. Therefore, after downloading the dataset, we go through the preprocessing step in order to treat outliers and split the original data into subsets of data.
+Our develop pipeline ends with the ```train.py``` script, and you can easily access to the full code in [here][6]. There, we put all the steps together and link them all. Therefore, after downloading the dataset, we go through the preprocessing step in order to treat outliers and split the original data into subsets of data.
 
 After that, we define a model to be trained and also its hyperparameters search space that a GridSearchCV method uses to find the best hyperparameters values for the chosen model. Then, we train this model using this hyperparameters, and go through a validation step in order to check whether our model is performing well in the validation dataset.
 
@@ -108,7 +44,9 @@ The last thing we do in the ```train.py``` script is gathering some model metric
 
 ## MLOps Reproducibility
 
-Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment. 
+Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment.
+
+In order to build the DVC pipeline, we have to create a ```YAML``` file that looks like the following snippet.
 
 ```yaml
 stages:
@@ -131,8 +69,12 @@ stages:
           cache: false
 ```
 
-We will also create our GitHub Actions workflow to made available automatic checks and provide insights for any further modifications on the code. 
-So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as metrics improvements comparing to the ```master``` branch and confusion matrices. Some examples are illustrated in Fig. 1 and Fig. 2.
+We divide the pipeline in stages, where each is responsible to execute a specific script you have on your project. Moreover, we also have to define the dependencies and outputs of each stage. For instance, in this article, we have to execute the ```download_dataset.py``` first and the ```train.py``` shortly after. So, we put them in correct order and specify the requirements. For more details, you can check the [DVC Repro Documentation][7].
+
+After this, you can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type ```dvc repro```.
+
+Now, it's time to create our GitHub Actions workflow in order to make available automatic checks and provide insights for any further modifications on the code. 
+So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as metrics improvements comparing to the ```master``` branch and confusion matrices, like the ones illustrated in Fig. 1 and Fig. 2.
 
 <img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
 
@@ -145,6 +87,9 @@ So, whenever someone opens a Pull Request after modifying anything on the code, 
 *Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
 
 <!-- ![CM](./images/confusion_matrix.png) -->
+
+The original workflow we designed for this article is available on the repository. 
+Here, we are going to present the same ```YAML``` file, but just showing the second job, which is the experiment run and pytest execution.
 
 ```yaml
 name: credit-fraud-detection-flow
@@ -206,6 +151,21 @@ jobs:
           retention-days: 5
 ```
 
+We begin by defining the name of the workflow and when it will be triggered. 
+Here we are going to run this on every push that is made on the repository. this can be changed to execute in other scenarios as well.
+
+Then, we have to create all the jobs we need to run. We begin by defining the runner that we need to run our jobs on, and also the strategy (i.e. we can execute jobs using as many Python version as we want).
+After that, we need to define all the actions we need to use in our workflow. Here we are basically using 5 actions in total, they are:
+- ```actions/checkout@v2``` checks-out our repository under workspace, so the workflow can access our project.
+- ```iterative/setup-cml@v1``` sets up CML in the workflow.
+- ```iterative/setup-dvc@v1``` sets up DVC in the workflow.
+- ```aws-actions/configure-aws-credentials@v1``` configures the AWS credential and region environment variables to be used in the workflow.
+- ```actions/setup-python@v1``` sets up a Python environment
+
+After defining the actions to be executed, we can create and name the workflow steps, and run whatever need to be executed as well.
+So, in the previous snipped, we have a job called ```experiment-run-tests```, and within it we set the actions specified before, and among other things, we run the DVC pipeline we've created previously.
+By doing that, our pipeline will be executed remotely and its outputs (the ```confusion_matrix.png``` and ```metrics.json```) will be used by CML in order to generate a report to be used as other source of information we can use to base our decisions regarding PR approvals. 
+
 ## Model Deploying and Serving
 
 ```
@@ -231,3 +191,5 @@ web: uvicorn src.app:app --host=0.0.0.0 --port=${PORT:-5000}
 [3]: https://dashboard.heroku.com/apps
 [4]: https://www.kaggle.com/mlg-ulb/creditcardfraud
 [5]: https://www.kaggle.com/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
+[6]: https://github.com/dsjardim/fraud-detection-mlops/blob/master/src/train.py
+[7]: https://dvc.org/doc/command-reference/repro
