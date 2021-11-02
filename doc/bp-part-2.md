@@ -104,7 +104,7 @@ In it, we put all the steps together and link them all. Therefore, after downloa
 
 After that, we define a model to be trained and also its hyperparameters search space that a GridSearchCV method uses to find the best hyperparameters values for the chosen model. Then, we train this model using this hyperparameters, and go through a validation step in order to check whether our model is performing well in the validation dataset.
 
-The last thing we do in the ```train.py``` script is gathering some training metrics, and we save both the trained model and its performance metrics after test it on the validation dataset.
+The last thing we do in the ```train.py``` script is gathering some model metrics, and we save both the trained model and its performance metrics after test it on the validation dataset.
 
 
 
