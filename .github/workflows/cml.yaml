@@ -25,7 +25,7 @@ jobs:
           flake8 src --count --select=E9,F63,F7,F82 --show-source --statistics
           flake8 src --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
-  python-test:
+  experiment-run-tests:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -33,6 +33,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - uses: iterative/setup-cml@v1
       - uses: iterative/setup-dvc@v1
       - uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -49,47 +50,13 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install --no-cache-dir -r requirements.txt
-      - name: Run test
-        run: |
-          dvc repro
-          pytest --cov-report=term-missing --cov=src --cov-fail-under=0
-          pytest --cov-report=html --cov=src
 
-      - name: Upload coverage report
-        uses: actions/upload-artifact@v2
-        with:
-          name: coverage-report
-          path: htmlcov/
-          retention-days: 5
-
-  experiment-train:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [ 3.8 ]
-    steps:
-      - uses: actions/checkout@v2
-      - uses: iterative/setup-cml@v1
-      - uses: iterative/setup-dvc@v1
-      - uses: actions/setup-python@v2
-      - uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_DEFAULT_REGION }}
-
-      - name: CML Run
+      - name: Run Experiment
         env:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Install Dependencies
-          python -m pip install --upgrade pip
-          pip install -r requirements.txt
-
-          # run-cache and reproduce pipeline
           dvc repro
 
-          # Report metrics
           echo "## Metrics" >> report.md
           git fetch --prune
           dvc metrics diff master --show-md >> report.md
@@ -99,3 +66,15 @@ jobs:
           cml-publish data/confusion_matrix.png --md >> report.md
 
           cml-send-comment report.md
+
+      - name: Run tests
+        run: |
+          pytest --cov-report=term-missing --cov=src --cov-fail-under=0
+          pytest --cov-report=html --cov=src
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-report
+          path: htmlcov/
+          retention-days: 5
