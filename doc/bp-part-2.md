@@ -208,6 +208,23 @@ jobs:
 
 ## Model Deploying and Serving
 
+```
+web: uvicorn src.app:app --host=0.0.0.0 --port=${PORT:-5000}
+```
+
+<img src="./images/heroku_print_1.PNG" alt="CM" width="512"/>
+
+*Fig. 3: Heroku App Setup. Font: The Author.*
+
+<!-- ![CM](./images/heroku_print_1.PNG) -->
+
+<img src="./images/heroku_print_2.PNG" alt="CM" width="512"/>
+
+*Fig. 4: Heroku Automatic Deploy. Font: The Author.*
+
+<!-- ![CM](./images/heroku_print_2.PNG) -->
+
+
 
 [1]: https://dvc.org/
 [2]: https://github.com/features/actions
