@@ -111,7 +111,7 @@ The last thing we do in the ```train.py``` script is gathering some model metric
 Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment. 
 
 We will also create our GitHub Actions workflow to made available automatic checks and provide insights for any further modifications on the code. 
-So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after this modification, such as metrics improvements comparing to the ```master``` branch and confusion matrices.
+So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as metrics improvements comparing to the ```master``` branch and confusion matrices. Some examples are illustrated in Fig. 1 and Fig. 2.
 
 <img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
 
