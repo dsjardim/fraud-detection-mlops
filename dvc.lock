@@ -28,8 +28,8 @@ stages:
     cmd: python src/download_dataset.py
     deps:
     - path: src/download_dataset.py
-      md5: 3e37b21b24db54a3693f56150d8f5028
-      size: 362
+      md5: fd45a6ea5fa97c8c335f64b80166d4c8
+      size: 370
     outs:
     - path: data/creditcard.csv
       md5: e90efcb83d69faf99fcab8b0255024de
@@ -42,8 +42,8 @@ stages:
       md5: e90efcb83d69faf99fcab8b0255024de
       size: 150828752
     - path: src/train.py
-      md5: 7d235362c83febe284ca23ed4d16c3b5
-      size: 3023
+      md5: aa6ccbde090bc4a36ea0cb705c8da6f9
+      size: 2440
     outs:
     - path: data/confusion_matrix.png
       md5: b9347a4d877c059d133d5842d7b8d30b
@@ -53,6 +53,6 @@ stages:
       md5: fc4c2c4a7664e33aac086f15f8d8d7ae
       size: 127
     - path: data/model.pickle
-      md5: c0571fa98940ed337fb1847efc342d9b
-      size: 340856
+      md5: a59baf15a24006646d40c315ca504a5b
+      size: 5806512
       isexec: true
