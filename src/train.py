@@ -7,8 +7,6 @@ import pandas as pd
 import seaborn as sns
 import os
 
-import lightgbm as lgb
-import xgboost as xgb
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 
@@ -30,26 +28,10 @@ def main():
     y_train = data_dict["y_train"]
     y_valid = data_dict["y_valid"]
 
-    model_name = "xgboost"
-    # model_name = "lightgbm"
     # model_name = "logistic_regression"
-    # model_name = "random_forest"
+    model_name = "random_forest"
 
-    if model_name == "xgboost":
-        model = xgb.XGBClassifier(use_label_encoder=False)
-        parameters = {
-            'n_estimators': [500, 1000],
-            'max_depth': [20, 50],
-            'subsample': [0.7, 0.8, 0.9]
-        }
-    elif model_name == "lightgbm":
-        model = lgb.LGBMClassifier()
-        parameters = {
-            'n_estimators': [500, 1000],
-            'max_depth': [25, 50],
-            'num_leaves': [100, 200]
-        }
-    elif model_name == "logistic_regression":
+    if model_name == "logistic_regression":
         model = LogisticRegression()
         parameters = {
             "penalty": ['l1', 'l2'],
@@ -58,9 +40,9 @@ def main():
     else:
         model = RandomForestClassifier()
         parameters = {
-            'n_estimators': [500, 1000],
-            'max_depth': [25, 50],
-            'max_leaf_nodes': [100, 200]
+            'n_estimators': [500],
+            'max_depth': [50],
+            'max_leaf_nodes': [100]
         }
 
     print(model)

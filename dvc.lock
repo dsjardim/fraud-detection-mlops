@@ -42,17 +42,17 @@ stages:
       md5: e90efcb83d69faf99fcab8b0255024de
       size: 150828752
     - path: src/train.py
-      md5: 9884c2e13795ad49e3cfddc764f44af0
-      size: 2064
+      md5: aa6ccbde090bc4a36ea0cb705c8da6f9
+      size: 2440
     outs:
     - path: data/confusion_matrix.png
-      md5: c9adcb0cd7032e96a4ae021bafa842e7
-      size: 65551
+      md5: b9347a4d877c059d133d5842d7b8d30b
+      size: 66196
       isexec: true
     - path: data/metrics.json
-      md5: 436ab056b68aa15cdca6a6684232f1ee
+      md5: fc4c2c4a7664e33aac086f15f8d8d7ae
       size: 127
     - path: data/model.pickle
-      md5: 10926b15e905aa8f5fc0a6fb02ec3d1c
-      size: 949
+      md5: a59baf15a24006646d40c315ca504a5b
+      size: 5806512
       isexec: true
