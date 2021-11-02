@@ -16,6 +16,7 @@ The following code snippet do the trick for us, the method takes as parameters t
 ```python
  import boto3
  import botocore
+ 
  def download_data_from_s3(bucket_name, key, dst):
     try:
         s3 = boto3.resource('s3')
