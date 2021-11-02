@@ -106,8 +106,10 @@ After that, we define a model to be trained and also its hyperparameters search 
 
 The last thing we do in the ```train.py``` script is gathering some model metrics, and we save both the trained model and its performance metrics after test it on the validation dataset.
 
+## MLOps Reproducibility
 
-
+Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. 
+So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment. More than that, we will set our GitHub Actions Workflow to make available automatic insights for any further modifications on the code. So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after this modification, such as metrics improvements comparing to the ```master``` branch and confusion matrices.
 
 ## Model Deploying and Serving
 
