@@ -113,13 +113,13 @@ Until now, we haven't seen a MLOps pipeline, but a traditional data science pipe
 We will also create our GitHub Actions workflow to made available automatic checks and provide insights for any further modifications on the code. 
 So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after this modification, such as metrics improvements comparing to the ```master``` branch and confusion matrices.
 
-<img src="./images/metrics_diff.png" alt="MetricsDiff" width="300"/>
+<img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
 
 *Fig. 1: Metrics comparison. Font: The Author.*
 
 <!-- ![MetricsDiff](./images/metrics_diff.png) -->
 
-<img src="./images/confusion_matrix.png" alt="CM" width="256"/>
+<img src="./images/confusion_matrix.png" alt="CM" width="512"/>
 
 *Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
 
