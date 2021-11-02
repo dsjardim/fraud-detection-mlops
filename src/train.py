@@ -9,10 +9,8 @@ import os
 
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
-
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import GridSearchCV
-from sklearn.model_selection import cross_val_score
 
 from preprocessing import prepare_dataset
 
@@ -28,8 +26,7 @@ def main():
     y_train = data_dict["y_train"]
     y_valid = data_dict["y_valid"]
 
-    # model_name = "logistic_regression"
-    model_name = "random_forest"
+    model_name = "logistic_regression"
 
     if model_name == "logistic_regression":
         model = LogisticRegression()
