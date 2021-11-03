@@ -44,7 +44,7 @@ The last thing we do in the ```train.py``` script is gathering some model metric
 
 ## MLOps Reproducibility
 
-Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC pipeline in order to make our work reproducible in any other environment.
+Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC in order to make our work reproducible in any other environment.
 
 In order to build the DVC pipeline, we have to create a ```YAML``` file that looks like the following snippet.
 
@@ -69,28 +69,14 @@ stages:
           cache: false
 ```
 
-We divide the pipeline in stages, where each is responsible to execute a specific script you have on your project. Moreover, we also have to define the dependencies and outputs of each stage. For instance, in this article, we have to execute the ```download_dataset.py``` first and the ```train.py``` shortly after. So, we put them in correct order and specify the requirements. For more details, you can check the [DVC Repro Documentation][7].
+We divide the pipeline in stages, where each is responsible to execute a specific script you have on your project. Moreover, we also have to define the dependencies and outputs of each stage. In this article, we have two stages: **download_data** and **train_clf**. The first one executes the ```download_dataset.py``` script, and the second one runs the ```train.py``` script shortly after. So, we put them in the correct order of executions and specify their requirements. For more details, you can check the [DVC Repro Documentation][7].
 
-After this, you can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type ```dvc repro```.
+After this, you can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type the command ```dvc repro```.
 
-Now, it's time to create our GitHub Actions workflow in order to make available automatic checks and provide insights for any further modifications on the code. 
-So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as metrics improvements comparing to the ```master``` branch and confusion matrices, like the ones illustrated in Fig. 1 and Fig. 2.
+Now, it's time to create our GitHub Actions workflow in order to make available automatic checks and provide insights for any further modifications on the code.
+GitHub Actions uses YAML syntax to define the events, jobs, and steps. These ```YAML``` files are stored in your code repository, in a directory called ```.github/workflows```.
 
-<img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
-
-*Fig. 1: Metrics comparison. Font: The Author.*
-
-<!-- ![MetricsDiff](./images/metrics_diff.png) -->
-
-<img src="./images/confusion_matrix.png" alt="CM" width="512"/>
-
-*Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
-
-<!-- ![CM](./images/confusion_matrix.png) -->
-
-The original workflow we designed for this article is available on the repository. 
-Here, we are going to present the same ```YAML``` file, but just showing the second job, which is the experiment run and pytest execution.
-
+Our workflow looks like this:
 ```yaml
 name: credit-fraud-detection-flow
 on: [ push ]
@@ -150,6 +136,23 @@ jobs:
           path: htmlcov/
           retention-days: 5
 ```
+
+So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as improvements on metrics comparing to the ```master``` branch and also confusion matrix plots, both cases are illustrated in Fig. 1 and Fig. 2.
+
+<img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
+
+*Fig. 1: Metrics comparison. Font: The Author.*
+
+<!-- ![MetricsDiff](./images/metrics_diff.png) -->
+
+<img src="./images/confusion_matrix.png" alt="CM" width="512"/>
+
+*Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
+
+<!-- ![CM](./images/confusion_matrix.png) -->
+
+The original workflow we designed for this article is available on the repository. 
+Here, we are going to present the same ```YAML``` file, but just showing the second job, which is the experiment run and pytest execution.
 
 We begin by defining the name of the workflow and when it will be triggered. 
 Here we are going to run this on every push that is made on the repository. this can be changed to execute in other scenarios as well.
