@@ -1,17 +1,17 @@
 # MLOps: A Complete and Hands-on Introduction - Part 2
 
-In the first part of this series we could explore the idea of MLOps, some of its frameworks and other tools that can be useful when we want to apply this concept in our daily bases. Although we saw some tools there, I think it deserves some hands-on examples on how it can be used on a real data science project.
+In the first part of this series we could explore the idea of MLOps, some of its frameworks and other tools that can be useful when we want to apply this concept in our daily bases. Although we saw some examples there, I think it deserves a hands-on guideline on how to build a MLOps pipeline in a data science project.
 
-The dataset we'll be using in this hands-on article is available on Kaggle, and it's called [Credit Card Fraud Detection][4]. Moreover, we added the data processing step based on this [notebook: Credit Fraud || Dealing with Imbalanced Datasets][5], that is available on Kaggle as well.
+The dataset we'll be using here is available on Kaggle, and it's called [Credit Card Fraud Detection][4]. Moreover, the data processing step we are going to use is based on this [notebook: Credit Fraud || Dealing with Imbalanced Datasets][5], available on Kaggle as well.
 
-Here we will be using GitHub for hosting our repository, [Data Version Control][1] (DVC) for managing and reproducing the data science pipeline we are going to build. In addiction, we are going to store within a S3 bucket all the data that are too big to be tracked by Git, such as our models and the dataset. 
+Here we are going to use GitHub for hosting our repository, [Data Version Control][1] (DVC) for managing and reproducing the data science pipeline, and [Continuous Machine Learning][10] (CML) to create automatic reports for our ML experiments. In addiction, we are going to store within a S3 bucket all the data that are too big to be tracked by Git, such as our models artifacts and the dataset. 
 
 Following the MLOps principles, we are going to use [GitHub Actions][2] to automate all our development workflow, and we will integrate the repository with [Heroku][3] in order to automatically deploy our API and serve our model. With that being covered, in the next few sections we will dive into this very simple MLOps pipeline and see how can we implement the concepts we learnt before.
 
 ## Getting the dataset
 
 First things first, we can't do anything without being able to access our dataset. So, we have to develop a routine that can help us in downloading the data from our S3 bucket.
-The following code snippet do the trick for us, the method takes as parameters the name of your bucket (bucket_name), the object key (key), and the destination (dst) where you'd like to store the data locally.
+The following code snippet do the trick for us, the method takes as parameters the name of your bucket (bucket_name), the object key (key), and the destination (dst) where you'd like to store locally the data.
 
 ```python
  import boto3
@@ -33,7 +33,7 @@ In this script, we are just defining the information we need to use the ```downl
 
 ## Data Preparation and Model Training
 
-The next step in our pipeline is data preprocessing, followed by the model training and validation steps.
+The next part in our pipeline is data preprocessing, followed by the model training and validation steps.
 For the first part, we've created a script called ```preprocessing.py```, and within it, we have several data processing methods we can use, such as data sampling, outliers detection and missing values treatments and dimensionality reduction. It's important to highlight that all these methods were extracted on this public [notebook][5] available on Kaggle.
 
 Our develop pipeline ends with the ```train.py``` script, and you can easily access to the full code in [here][6]. There, we put all the steps together and link them all. Therefore, after downloading the dataset, we go through the preprocessing step in order to treat outliers and split the original data into subsets of data.
@@ -68,7 +68,11 @@ stages:
           cache: false
 ```
 
-By doing that, we're dividing the pipeline into stages, where each is responsible for the execution of a specific part of the project. Moreover, we also have to define the dependencies and outputs of each stage. In this article, we have two stages: **download_data** and **train_clf**. The first one executes the ```download_dataset.py``` script, and the second one runs the ```train.py```. So, we put them in the correct order of execution and specify their requirements. For more details, you can check the [DVC Repro Documentation][7].  With that, we can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type the command ```dvc repro```.
+By doing that, we're dividing the pipeline into stages, where each one is responsible for the execution of a specific part of the project. Moreover, we have also to define the dependencies and outputs of each stage. 
+
+In this article, we have two stages: **download_data** and **train_clf**. The first one executes the ```download_dataset.py``` script, and the second one runs the ```train.py```. So, we put them in the correct order of execution and specify their requirements. For more details, you can check the [DVC Repro Documentation][7].  
+
+Now that the pipeline is ready, we can execute it in any other environment by just opening a terminal on the workspace of the project and type the command ```dvc repro```.
 
 So far so now, we have built a pipeline and made it ready to run anywhere, linking its dependencies and specifying the outputs. Now, we can use it to integrate this with GitHub Actions in order to generate insights to be used in a decision-making process, for example, whether to approve or not a Pull Request.
 
@@ -140,7 +144,7 @@ We begin by naming the workflow and defining when it will be triggered. Then, we
 - ```aws-actions/configure-aws-credentials@v1``` configures the AWS credential and region environment variables to be used in the workflow.
 - ```actions/setup-python@v1``` sets up a Python environment
 
-One of the jobs we have in the workflow we've created for this article, is called ```experiment-run-tests```, and within it, we set the actions specified before so that we can be able to run the DVC pipeline we've created previously. By doing that, our pipeline will be executed remotely and its outputs (the ```confusion_matrix.png``` and ```metrics.json```) will be used by CML to generate a report to be used in the decision-making process we mentioned before. 
+One of the jobs we have in our workflow, is called ```experiment-run-tests```, and within it, we set the actions specified before so that we can be able to run the DVC pipeline we've created previously. By doing that, our pipeline will be executed remotely and its outputs (the ```confusion_matrix.png``` and ```metrics.json```) will be used by CML to generate a automatic report about our model performance. 
 
 Now, whenever someone modifies anything on the code and open a Pull Request, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as improvements on metrics comparing to the ```master``` branch and also confusion matrix plots, both cases are illustrated in Fig. 1 and Fig. 2.
 
@@ -185,7 +189,7 @@ The next and final step is to define which repository will be connected to your 
 
 <!-- ![CM](./images/heroku_print_2.PNG) -->
 
-That's it! At this point you have built a very simple, but complete, MLOps pipeline. And we hope to have at least elucidated a little about your doubts on how to apply MLOps concepts in a real life Data Science project. 
+That's it! At this point you have built a very simple, but complete, MLOps pipeline. And we hope to have at least elucidated a little about your doubts on how to apply MLOps concepts in a real life Data Science project. All the scripts we used here are available on [this][11] GitHub repository.
 If this hands-on article left you more curious about MLOps and its applications, I strongly recommend watching this [MLOps tutorials][9] on YouTube. I'm sure that it will help you in building your first MLOps pipeline. 
 
 [1]: https://dvc.org/
@@ -197,3 +201,5 @@ If this hands-on article left you more curious about MLOps and its applications,
 [7]: https://dvc.org/doc/command-reference/repro
 [8]: https://fastapi.tiangolo.com/
 [9]: https://www.youtube.com/watch?v=9BgIDqAzfuA&list=PL7WG7YrwYcnDBDuCkFbcyjnZQrdskFsBz&ab_channel=DVCorg
+[10]: https://cml.dev/
+[11]: https://github.com/dsjardim/fraud-detection-mlops
