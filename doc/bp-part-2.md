@@ -185,7 +185,8 @@ The next and final step is to define which repository will be connected to your 
 
 <!-- ![CM](./images/heroku_print_2.PNG) -->
 
-That's it! At this point you have built a very simple, but complete, MLOps pipeline. We hope to have at least elucidated all your doubts about how to apply MLOps concepts in a real life Data Science project. 
+That's it! At this point you have built a very simple, but complete, MLOps pipeline. And we hope to have at least elucidated a little about your doubts on how to apply MLOps concepts in a real life Data Science project. 
+If this hands-on article left you more curious about MLOps and its applications, I strongly recommend watching this [MLOps tutorials][9] on YouTube. I'm sure that it will help you in building your first MLOps pipeline. 
 
 [1]: https://dvc.org/
 [2]: https://github.com/features/actions
@@ -195,3 +196,4 @@ That's it! At this point you have built a very simple, but complete, MLOps pipel
 [6]: https://github.com/dsjardim/fraud-detection-mlops/blob/master/src/train.py
 [7]: https://dvc.org/doc/command-reference/repro
 [8]: https://fastapi.tiangolo.com/
+[9]: https://www.youtube.com/watch?v=9BgIDqAzfuA&list=PL7WG7YrwYcnDBDuCkFbcyjnZQrdskFsBz&ab_channel=DVCorg
