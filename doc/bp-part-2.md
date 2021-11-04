@@ -44,9 +44,8 @@ The last thing we do in the ```train.py``` script is gathering some model metric
 
 ## MLOps Reproducibility
 
-Until now, we haven't seen a MLOps pipeline, but a traditional data science pipeline. So it's time to configure the DVC in order to make our work reproducible in any other environment.
-
-In order to build the DVC pipeline, we have to create a ```YAML``` file that looks like the following snippet.
+Until now, we haven't seen a MLOps pipeline, but a traditional data science one. So it's time to configure the DVC in order to make our work reproducible in any other environment.
+Therefore, all we have to do is to create a ```YAML``` file containing the following script.
 
 ```yaml
 stages:
@@ -69,14 +68,11 @@ stages:
           cache: false
 ```
 
-We divide the pipeline in stages, where each is responsible to execute a specific script you have on your project. Moreover, we also have to define the dependencies and outputs of each stage. In this article, we have two stages: **download_data** and **train_clf**. The first one executes the ```download_dataset.py``` script, and the second one runs the ```train.py``` script shortly after. So, we put them in the correct order of executions and specify their requirements. For more details, you can check the [DVC Repro Documentation][7].
+By doing that, we're dividing the pipeline into stages, where each is responsible for the execution of a specific part of the project. Moreover, we also have to define the dependencies and outputs of each stage. In this article, we have two stages: **download_data** and **train_clf**. The first one executes the ```download_dataset.py``` script, and the second one runs the ```train.py```. So, we put them in the correct order of execution and specify their requirements. For more details, you can check the [DVC Repro Documentation][7].  With that, we can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type the command ```dvc repro```.
 
-After this, you can execute your entire pipeline in any other environment by just opening a terminal on the root directory of the project and type the command ```dvc repro```.
+So far so now, we have built a pipeline and made it ready to run anywhere, linking its dependencies and specifying the outputs. Now, we can use it to integrate this with GitHub Actions in order to generate insights to be used in a decision-making process, for example, whether to approve or not a Pull Request.
 
-Now, it's time to create our GitHub Actions workflow in order to make available automatic checks and provide insights for any further modifications on the code.
-GitHub Actions uses YAML syntax to define the events, jobs, and steps. These ```YAML``` files are stored in your code repository, in a directory called ```.github/workflows```.
-
-Our workflow looks like this:
+GitHub Actions uses YAML syntax to define the events, jobs, and steps. These ```YAML``` files are stored in your code repository, in a directory called ```.github/workflows```. And our workflow look like this:
 ```yaml
 name: credit-fraud-detection-flow
 on: [ push ]
@@ -137,7 +133,16 @@ jobs:
           retention-days: 5
 ```
 
-So, whenever someone opens a Pull Request after modifying anything on the code, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as improvements on metrics comparing to the ```master``` branch and also confusion matrix plots, both cases are illustrated in Fig. 1 and Fig. 2.
+We begin by naming the workflow and defining when it will be triggered. Then, we specify the jobs and, for each job, we define the steps to be executed. You can think the steps as docker containers used to execute something. So, in each step we have to define the ```actions```, and here we are using 5 actions in total:
+- ```actions/checkout@v2``` checks-out our repository under workspace, so the workflow can access our project.
+- ```iterative/setup-cml@v1``` sets up CML in the workflow.
+- ```iterative/setup-dvc@v1``` sets up DVC in the workflow.
+- ```aws-actions/configure-aws-credentials@v1``` configures the AWS credential and region environment variables to be used in the workflow.
+- ```actions/setup-python@v1``` sets up a Python environment
+
+One of the jobs we have in the workflow we've created for this article, is called ```experiment-run-tests```, and within it, we set the actions specified before so that we can be able to run the DVC pipeline we've created previously. By doing that, our pipeline will be executed remotely and its outputs (the ```confusion_matrix.png``` and ```metrics.json```) will be used by CML to generate a report to be used in the decision-making process we mentioned before. 
+
+Now, whenever someone modifies anything on the code and open a Pull Request, in addiction to the code diff, we will have visual information about the model performance after these modifications, such as improvements on metrics comparing to the ```master``` branch and also confusion matrix plots, both cases are illustrated in Fig. 1 and Fig. 2.
 
 <img src="./images/metrics_diff.png" alt="MetricsDiff" width="500"/>
 
@@ -150,24 +155,6 @@ So, whenever someone opens a Pull Request after modifying anything on the code, 
 *Fig. 2: Confusion Matrix generated on validation step. Font: The Author.*
 
 <!-- ![CM](./images/confusion_matrix.png) -->
-
-The original workflow we designed for this article is available on the repository. 
-Here, we are going to present the same ```YAML``` file, but just showing the second job, which is the experiment run and pytest execution.
-
-We begin by defining the name of the workflow and when it will be triggered. 
-Here we are going to run this on every push that is made on the repository. this can be changed to execute in other scenarios as well.
-
-Then, we have to create all the jobs we need to run. We begin by defining the runner that we need to run our jobs on, and also the strategy (i.e. we can execute jobs using as many Python version as we want).
-After that, we need to define all the actions we need to use in our workflow. Here we are basically using 5 actions in total, they are:
-- ```actions/checkout@v2``` checks-out our repository under workspace, so the workflow can access our project.
-- ```iterative/setup-cml@v1``` sets up CML in the workflow.
-- ```iterative/setup-dvc@v1``` sets up DVC in the workflow.
-- ```aws-actions/configure-aws-credentials@v1``` configures the AWS credential and region environment variables to be used in the workflow.
-- ```actions/setup-python@v1``` sets up a Python environment
-
-After defining the actions to be executed, we can create and name the workflow steps, and run whatever need to be executed as well.
-So, in the previous snipped, we have a job called ```experiment-run-tests```, and within it we set the actions specified before, and among other things, we run the DVC pipeline we've created previously.
-By doing that, our pipeline will be executed remotely and its outputs (the ```confusion_matrix.png``` and ```metrics.json```) will be used by CML in order to generate a report to be used as other source of information we can use to base our decisions regarding PR approvals. 
 
 ## Model Deploying and Serving
 
