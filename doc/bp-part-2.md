@@ -158,9 +158,18 @@ Now, whenever someone modifies anything on the code and open a Pull Request, in 
 
 ## Model Deploying and Serving
 
+Now that we have set our GitHub repository to automatically run experiments and tests after any modification on the code, we only need to create a routine to automatically deploy our model to serve in an API.
+
+In order to simulate a production environment, where we have a model available to be used through API calls, we've developed a script called ```app.py``` which contains our very simple API developed using [FastAPI][8].
+The **predict** method of the API takes a ```CSV``` file as input and returns the classification score, and the predictions.
+
+The automatic deploy of our API will be handled by [Heroku][3], all we have to do is to create a ```Procfile``` file containing the following script and save it in our workspace.
+
 ```
 web: uvicorn src.app:app --host=0.0.0.0 --port=${PORT:-5000}
 ```
+
+Then, we have to create an App on Heroku and set the Deployment method to work with your GitHub account, as shown in Fig. 3. 
 
 <img src="./images/heroku_print_1.PNG" alt="CM" width="512"/>
 
@@ -168,13 +177,15 @@ web: uvicorn src.app:app --host=0.0.0.0 --port=${PORT:-5000}
 
 <!-- ![CM](./images/heroku_print_1.PNG) -->
 
+The next and final step is to define which repository will be connected to your Heroku App, and then you just need to enable the Automatic Deploy option to work with your **master** branch of your repository. We present this last step in Fig. 4.
+
 <img src="./images/heroku_print_2.PNG" alt="CM" width="512"/>
 
 *Fig. 4: Heroku Automatic Deploy. Font: The Author.*
 
 <!-- ![CM](./images/heroku_print_2.PNG) -->
 
-
+That's it! At this point you have built a very simple, but complete, MLOps pipeline. We hope to have at least elucidated all your doubts about how to apply MLOps concepts in a real life Data Science project. 
 
 [1]: https://dvc.org/
 [2]: https://github.com/features/actions
@@ -183,3 +194,4 @@ web: uvicorn src.app:app --host=0.0.0.0 --port=${PORT:-5000}
 [5]: https://www.kaggle.com/janiobachmann/credit-fraud-dealing-with-imbalanced-datasets
 [6]: https://github.com/dsjardim/fraud-detection-mlops/blob/master/src/train.py
 [7]: https://dvc.org/doc/command-reference/repro
+[8]: https://fastapi.tiangolo.com/
